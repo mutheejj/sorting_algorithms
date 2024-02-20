@@ -1,3 +1,4 @@
 C - Sorting algorithms & Big O
-Authors -> John Maina
+
+Authors -> John Muthee Maina
 	-> Christopher Kimemia
