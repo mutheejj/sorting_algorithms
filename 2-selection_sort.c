@@ -1,48 +1,78 @@
 #include "sort.h"
 
 /**
-  * selection_sort - ...
+  * quick_sort - ...
   * @array: ...
   * @size: ...
   *
   * Return: Nothing!
   */
-void selection_sort(int *array, size_t size)
+void quick_sort(int *array, size_t size)
 {
-	size_t i = 0, j = 1, aux = 0, min = 0, limit = size - 1;
-
-	if (size < 2)
+	if (!array || size < 2)
 		return;
 
-	while (i < limit)
+	quick_sort_rec(array, 0, size - 1, size);
+}
+
+/**
+  * quick_sort_rec - ...
+  * @array: ...
+  * @lower: ...
+  * @higher: ...
+  * @size: ...
+  *
+  * Return: Nothing!
+  */
+void quick_sort_rec(int *array, int lower, int higher, size_t size)
+{
+	int l_p = 0;
+
+	if (lower < higher)
 	{
-		if (j == size)
-		{
-			if (i != min)
-			{
-				aux = array[i];
-				array[i] = array[min];
-				array[min] = aux;
-				print_array(array, size);
-			}
-
-			++i;
-			min = i;
-			j = i + 1;
-			continue;
-		}
-
-		if (array[min] > array[j])
-			min = j;
-
-		++j;
+		l_p = lomuto_partition(array, lower, higher, size);
+		quick_sort_rec(array, lower, l_p - 1, size);
+		quick_sort_rec(array, l_p + 1, higher, size);
 	}
 }
-Symbols
-Find definitions and references for functions and other symbols in this file by clicking a symbol below or in the code.
-Filter symbols
-r
-func
-selection_sort
-Footer
 
+/**
+  * lomuto_partition - ...
+  * @array: ...
+  * @lower: ...
+  * @higher: ...
+  * @size: ...
+  *
+  * Return: Nothing!
+  */
+int lomuto_partition(int *array, int lower, int higher, size_t size)
+{
+	int i = 0, j = 0, pivot = 0, aux = 0;
+
+	pivot = array[higher];
+	i = lower;
+
+	for (j = lower; j < higher; ++j)
+	{
+		if (array[j] < pivot)
+		{
+			aux = array[i];
+			array[i] = array[j];
+			array[j] = aux;
+
+			if (aux != array[i])
+				print_array(array, size);
+
+			++i;
+		}
+	}
+
+	aux = array[i];
+	array[i] = array[higher];
+	array[higher] = aux;
+
+	if (aux != array[i])
+		print_array(array, size);
+
+	return (i);
+}
